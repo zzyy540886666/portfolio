@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>项目作品集 | Portfolio</title>
+  <meta name="description" content="个人项目介绍与作品展示" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0b0d;
+      --surface: #141417;
+      --surface-2: #1e1e24;
+      --text: #f4f1ea;
+      --muted: #9c9990;
+      --accent: #ff4d00;
+      --accent-2: #00d4aa;
+      --border: rgba(244, 241, 234, 0.08);
+      --radius: 18px;
+      --transition: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Background atmosphere */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(255, 77, 0, 0.08), transparent 35%),
+        radial-gradient(circle at 85% 30%, rgba(0, 212, 170, 0.06), transparent 30%),
+        radial-gradient(circle at 50% 90%, rgba(255, 77, 0, 0.05), transparent 40%);
+      pointer-events: none;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.035;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* Typography */
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* Layout */
+    .container {
+      width: min(1280px, 92vw);
+      margin: 0 auto;
+    }
+
+    /* Header / Hero */
+    header {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      padding: 10vh 0 8vh;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8vh;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+    }
+
+    .hero-title {
+      font-size: clamp(3.2rem, 10vw, 8.5rem);
+      max-width: 14ch;
+      margin-bottom: 2.5rem;
+      background: linear-gradient(135deg, var(--text) 55%, var(--muted));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      max-width: 55ch;
+      color: var(--muted);
+      margin-bottom: 3.5rem;
+      line-height: 1.7;
+    }
+
+    .stats {
+      display: flex;
+      gap: 3.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 4vh;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+      animation: float 2.5s ease-in-out infinite;
+    }
+
+    .scroll-hint svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--muted);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, 8px); }
+    }
+
+    /* Section */
+    section {
+      padding: 10vh 0;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3.8rem);
+    }
+
+    .section-title em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.65rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.35s var(--transition);
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.45s var(--transition), box-shadow 0.45s var(--transition), border-color 0.45s var(--transition);
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .project-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s var(--transition), transform 0.8s var(--transition), box-shadow 0.45s var(--transition), border-color 0.45s var(--transition);
+    }
+
+    .project-card.hidden {
+      display: none;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+      border-color: rgba(255, 77, 0, 0.35);
+    }
+
+    .card-media {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s var(--transition);
+    }
+
+    .project-card:hover .card-media img {
+      transform: scale(1.06);
+    }
+
+    .card-media::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(11, 11, 13, 0.7), transparent 45%);
+      opacity: 0.8;
+      transition: opacity 0.45s var(--transition);
+    }
+
+    .project-card:hover .card-media::after {
+      opacity: 0.5;
+    }
+
+    .card-category {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 2;
+      background: rgba(11, 11, 13, 0.65);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      color: var(--accent-2);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      margin-bottom: 0.8rem;
+      transition: color 0.3s var(--transition);
+    }
+
+    .project-card:hover .card-title {
+      color: var(--accent);
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      background: var(--surface-2);
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .card-summary {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.65;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 6, 0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4vh 4vw;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      position: relative;
+      width: min(1100px, 100%);
+      max-height: 92vh;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      transform: translateY(30px) scale(0.98);
+      transition: transform 0.45s var(--transition);
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-media {
+      position: relative;
+      background: #000;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-main-img {
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      object-fit: contain;
+      background: radial-gradient(circle at center, #1a1a1f, #000);
+    }
+
+    .modal-thumbs {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      overflow-x: auto;
+      background: rgba(0, 0, 0, 0.35);
+      border-top: 1px solid var(--border);
+    }
+
+    .modal-thumb {
+      width: 72px;
+      height: 54px;
+      flex: 0 0 auto;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      opacity: 0.6;
+      transition: all 0.25s var(--transition);
+    }
+
+    .modal-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-thumb:hover,
+    .modal-thumb.active {
+      opacity: 1;
+      border-color: var(--accent);
+    }
+
+    .modal-content {
+      padding: 2.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    .modal-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .modal-category {
+      color: var(--accent-2);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      line-height: 1.15;
+    }
+
+    .modal-desc {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 0.98rem;
+    }
+
+    .modal-features h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .modal-features ul {
+      list-style: none;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .modal-features li {
+      position: relative;
+      padding-left: 1.4rem;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .modal-features li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .modal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: auto;
+      padding-top: 1rem;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      border-top: 1px solid var(--border);
+      transition: gap 0.3s var(--transition);
+    }
+
+    .modal-link:hover {
+      gap: 0.9rem;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s var(--transition);
+      z-index: 5;
+    }
+
+    .modal-close:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: rotate(90deg);
+    }
+
+    .modal-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s var(--transition);
+      z-index: 5;
+    }
+
+    .modal-nav:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .modal-nav.prev { left: 1rem; }
+    .modal-nav.next { right: 1rem; }
+
+    /* Footer */
+    footer {
+      padding: 5vh 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal {
+        grid-template-columns: 1fr;
+        max-height: 92vh;
+      }
+
+      .modal-media {
+        min-height: 240px;
+      }
+
+      .modal-content {
+        padding: 1.6rem;
+      }
+
+      .modal-nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh"></div>
+  <div class="grain"></div>
+
+  <header>
+    <div class="container">
+      <div class="hero-top">
+        <div class="logo">Portfolio<span>.</span></div>
+        <div class="year">2024 — 2026</div>
+      </div>
+      <h1 class="hero-title">Selected Works</h1>
+      <p class="hero-sub">
+        从 Web 平台、工业软件到微信小程序与开源鸿蒙应用，这是一份聚焦真实交付与竞赛创新的个人项目集合。每个作品都连接着具体场景、技术选型与可量化的价值。
+      </p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-num">12</div>
+          <div class="stat-label">项目作品</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">5</div>
+          <div class="stat-label">网站平台</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">1</div>
+          <div class="stat-label">软件系统</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">6</div>
+          <div class="stat-label">小程序</div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>向下滚动</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+        <path d="M12 5v14M5 12l7 7 7-7" />
+      </svg>
+    </div>
+  </header>
+
+  <section id="works">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">项目案例 <em>Works</em></h2>
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">全部</button>
+          <button class="filter-btn" data-filter="website">网站</button>
+          <button class="filter-btn" data-filter="software">软件</button>
+          <button class="filter-btn" data-filter="miniprogram">小程序</button>
+        </div>
+      </div>
+      <div class="projects-grid" id="projectsGrid"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Portfolio. 个人项目展示。</p>
+    </div>
+  </footer>
+
+  <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="关闭">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+      <button class="modal-nav prev" id="modalPrev" aria-label="上一张">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+      <button class="modal-nav next" id="modalNext" aria-label="下一张">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
+      <div class="modal-media">
+        <img class="modal-main-img" id="modalMainImg" src="" alt="" />
+        <div class="modal-thumbs" id="modalThumbs"></div>
+      </div>
+      <div class="modal-content">
+        <div class="modal-meta">
+          <span class="modal-category mono" id="modalCategory"></span>
+        </div>
+        <h3 class="modal-title" id="modalTitle"></h3>
+        <div class="card-tags" id="modalTags"></div>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-features">
+          <h4>核心功能 / 亮点</h4>
+          <ul id="modalFeatures"></ul>
+        </div>
+        <a class="modal-link mono" id="modalLink" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">
+          访问在线演示
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17L17 7M17 7H7M17 7v10" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const projects = [
+      {
+        id: 1,
+        title: '东软学生心理档案系统',
+        category: 'website',
+        categoryLabel: '网站',
+        cover: '../docs/image.png',
+        images: ['image.png', 'image-1.png', 'image-2.png', 'image-3.png', 'image-4.png'],
+        tags: ['Vue3', 'TypeScript', 'Vite', 'Element Plus', 'ECharts'],
+        summary: '面向学校心理健康管理的 Web 平台，用于学生心理档案管理、危机预警与干预追踪。',
+        desc: '采用 Vue3 + TypeScript + Vite 技术栈，基于 Element Plus 组件库与 Vuex 状态管理构建 SPA 架构，使用 ECharts 实现数据可视化、WangEditor 支持富文本记录、XLSX 实现批量导入导出。解决传统纸质档案分散、心理数据难以聚合分析、危机学生跟踪不及时的问题。',
+        features: ['学生信息管理', '心理咨询与访谈记录', '问卷测评', '预警分级审核（待审/批量复审/在库/等级变更）', '危机与病历档案', '统计看板']
+      },
+      {
+        id: 2,
+        title: '三角洲俱乐部电竞网站',
+        category: 'website',
+        categoryLabel: '网站',
+        cover: '../docs/40.png',
+        images: ['40.png', 'cd0f3e1176a5727fc9823fa3ce37e061.png'],
+        tags: ['React 18', 'TypeScript', 'Vite', 'Zustand', 'Socket.IO', 'Express', 'MySQL', 'Redis'],
+        summary: '房间制多人实时联机电竞游戏平台，集成扫雷、连连看、幸运转盘、刮刮卡等玩法。',
+        desc: '采用前后端分离的 B/S 架构：前端基于 React 18 + TypeScript + Vite + Zustand + Socket.IO Client，后端使用 Express + TypeScript + MySQL 8 + Redis 7，通过 WebSocket 推送房间状态，并以 Docker + Nginx 容器化部署于腾讯云。',
+        features: ['扫雷、连连看、转盘、刮刮卡等多游戏', '老板/打手角色权限划分', '房间内全员实时同步', 'WebSocket 实时推送', 'Docker + Nginx 容器化部署']
+      },
+      {
+        id: 3,
+        title: '宇树机器狗监控平台',
+        category: 'website',
+        categoryLabel: '网站',
+        cover: '../docs/36.png',
+        images: ['36.png', '37.png', '38.png'],
+        tags: ['React 18', 'TypeScript', 'Tailwind CSS', 'ECharts', 'Express', 'Python', 'HyperLPR3'],
+        summary: '面向机器狗集群的可视化监控与智能巡检管理 Web 平台。',
+        desc: '前端采用 React 18 + TypeScript + Vite + Tailwind CSS + ECharts 构建科技感深色数据大屏；后端使用 Express.js 提供业务接口，并集成 Python（HyperLPR3）车牌识别微服务。将传统人工巡检升级为机器狗自动巡检 + AI 视觉识别。',
+        features: ['实时展示机器狗状态', '摄像头画面接入', '违停车牌识别结果', '设备管理', '巡检路线配置', '人员调度与统计概览']
+      },
+      {
+        id: 4,
+        title: '角膜地形图AI智能诊断系统',
+        category: 'website',
+        categoryLabel: '网站',
+        cover: '../docs/48.png',
+        images: ['48.png'],
+        tags: ['PyTorch', 'ConvNeXt V2', 'MaxViT', 'Swin Transformer V2', 'Streamlit', 'FastAPI', 'Docker'],
+        summary: '眼科医疗 AI 应用网站，用于角膜地形图自动分类与圆锥角膜筛查。',
+        desc: '基于 PyTorch 深度学习框架，采用 ConvNeXt V2、MaxViT、Swin Transformer V2 三模型加权集成，结合迁移学习、小样本学习与 Grad-CAM++ 可解释性分析，前端以 Streamlit + FastAPI 提供服务并通过 Docker 容器化部署。',
+        features: ['图像上传预测', '热力图可视化', 'Grad-CAM++ 可解释性分析', '临床指标分析', '结构化报告生成']
+      },
+      {
+        id: 5,
+        title: '精密行星减速器智能制造管理平台',
+        category: 'website',
+        categoryLabel: '网站',
+        cover: '../docs/43.png',
+        images: ['43.png', '44.png', '45.png'],
+        link: 'https://web-demo-1ylg.vercel.app/',
+        tags: ['Spring Boot 3.1', 'Java 17', 'MySQL', 'Vue 3', 'Element Plus', 'ECharts'],
+        summary: '面向工业零件制造行业的生产管理与 AI 助手平台。',
+        desc: '后端基于 Spring Boot 3.1 + Java 17 + MySQL 提供 RESTful API，前端基于 Vue 3 + Vite + Element Plus + ECharts 构建 SPA。解决制造过程中设备物料工艺数据割裂、进度不透明、库存预警滞后等问题。',
+        features: ['数据看板', '设备管理', '物料与 BOM', '工序与工艺路线', '生产任务', '采购计划', 'AI 智能助手']
+      },
+      {
+        id: 6,
+        title: '基于 OpenHarmony 的AI虚拟数字宠物',
+        category: 'software',
+        categoryLabel: '软件',
+        cover: '../docs/image-5.png',
+        images: ['image-5.png', 'image-7.png', 'image-8.png', 'image-9.png', 'image-10.png'],
+        tags: ['ArkTS', 'ArkUI', 'HarmonyOS NEXT', 'WS63', 'FastAPI', 'AI TTS'],
+        summary: '基于开源鸿蒙（HarmonyOS NEXT）的 AI 虚拟数字宠物与全息双端协同情感交互系统。',
+        desc: '采用 ArkTS/ArkUI 北向 App + WS63 南向嵌入式 + FastAPI AI 后端 + PC 推流服务的四层分布式架构。实现 2.5D 宠物动画、AI TTS 语音合成对话、三层记忆、情绪共鸣、性格成长、IoT 环境感知与双端协同。',
+        features: ['2.5D 宠物动画', 'AI TTS 语音合成对话', '三层记忆系统', '情绪共鸣', '性格成长', 'IoT 环境感知', '双端协同']
+      },
+      {
+        id: 7,
+        title: '医用试剂智能识别出入库系统',
+        category: 'miniprogram',
+        categoryLabel: '小程序',
+        cover: '../docs/gh_e7483c80723c_258.jpg',
+        images: ['gh_e7483c80723c_258.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg'],
+        tags: ['微信小程序', '微信云开发', '腾讯云 OCR', '企业微信机器人'],
+        summary: '面向医院检验科与实验室的移动端试剂生命周期管理方案，被深圳龙岗某三级医院采用。',
+        desc: '采用微信小程序 + 微信云开发（云函数/云数据库/云存储）的 Serverless 分层架构，集成腾讯云 OCR API 实现智能文字识别，并对接企业微信机器人和小程序消息订阅实现消息推送。以“拍照即入库”、“自动过期库存预警”为核心创新。',
+        features: ['OCR 拍照入库', '出入库记录', '库存与有效期预警', '汇总去重检测', '阈值联动订货状态', '数据导出']
+      },
+      {
+        id: 8,
+        title: '星球出机小程序',
+        category: 'miniprogram',
+        categoryLabel: '小程序',
+        cover: '../docs/1.首页.jpg',
+        images: ['1.首页.jpg', '4. 商品详情页.png', '9.会员、星球卡页.png', '13收益托管页.png', '8.我的、个人中心页.png', '2. 分类 、商品货架页.png'],
+        tags: ['UniApp', 'Java 17', 'Spring Boot', 'MySQL', 'Redis', '微信支付', '腾讯云 COS'],
+        summary: '面向设备托管与数字资产交易的微信小程序平台。',
+        desc: '采用 UniApp + Java 17 + Spring Boot 3.x + MySQL 8 + Redis + 腾讯云 COS/内容安全 的单体可演进架构，配套 Vue3 管理后台，通过 Docker Compose 一键部署。解决设备租赁与数字资产托管场景下从获客、交易、履约到运维的一体化线上经营问题。',
+        features: ['微信登录', '商品目录与搜索', '订单计价状态机', '微信支付与回调', '电子合同', '会员等级与星球卡', '光年币钱包', '资产托管', '社区内容机审', '分销佣金结算', '报修工单与巡检']
+      },
+      {
+        id: 9,
+        title: '众绘智径',
+        category: 'miniprogram',
+        categoryLabel: '小程序',
+        cover: '../docs/1.jpg',
+        images: ['1.jpg', '2.jpg', 'image-11.png', 'image-12.png', 'image-13.png', 'image-14.png'],
+        tags: ['微信小程序', '地图 SDK', 'AR 导航', '大模型', 'RESTful'],
+        summary: '面向多景区场景的 SaaS 化智能导览平台。',
+        desc: '采用“微信小程序 + B 端管理后台 + 云服务”前后端分离架构，前端集成地图 SDK 与 AR 实景导航能力，后端基于 RESTful 接口提供统一内容分发，并接入大模型实现 AI 自动讲解与智能问答。',
+        features: ['手绘/实景双图切换', 'AR 实景导航', 'AI 景点讲解', '一码多景区切换', '活动发布', '一键求助']
+      },
+      {
+        id: 10,
+        title: '家人安心护',
+        category: 'miniprogram',
+        categoryLabel: '小程序',
+        cover: '../docs/14.png',
+        images: ['14.png', '15.jpg', '16.jpg', '17.jpg', '18.jpg'],
+        tags: ['微信小程序', '微信云开发', 'WebSocket', '华为 Health Kit', '腾讯地图', '无人机 API'],
+        summary: '面向独居老人健康监护与立体应急救援的微信小程序。',
+        desc: '采用“微信小程序 + 微信云开发（云函数/云托管）+ WebSocket 实时通信”架构，集成华为 Health Kit 可穿戴设备数据接入、腾讯地图 SDK 与无人机平台 API。构建“穿戴感知—云端预警—空地协同救援”的立体守护闭环。',
+        features: ['老人实时体征监测', '定位与电子围栏', '分级警报处置', '无人机一键搜寻投送', '视频直播回传', '家属协同管理']
+      },
+      {
+        id: 11,
+        title: '数字游民生态小程序',
+        category: 'miniprogram',
+        categoryLabel: '小程序',
+        cover: '../docs/21.png',
+        images: ['21.png', '22.jpg', '23.jpg', '24.jpg', '25.jpg', '26.jpg'],
+        tags: ['微信小程序原生', 'WXML/WXSS/JS', '云数据库', 'Web 后台'],
+        summary: '面向数字游民与旅居人群的河源旅居入口型小程序。',
+        desc: '采用前后端分离的微信小程序原生开发（WXML/WXSS/JS）+ Web 运营管理后台，配套云数据库实现 C/B 双端协同。通过“产品包+活动+社群+技能对接”双引擎，构建获客→转化→留存→贡献→收益的旅居生态闭环。',
+        features: ['产品包（住宿+联合办公+服务）', '活动报名', '生活指引地图', '技能交换与项目对接', '社群共建', '运营数据看板']
+      },
+      {
+        id: 12,
+        title: '慧心协护',
+        category: 'miniprogram',
+        categoryLabel: '小程序',
+        cover: '../docs/28.jpg',
+        images: ['28.jpg', '29.jpg', '30.jpg', '31.jpg'],
+        tags: ['微信小程序原生', '科大讯飞离线语音', '语音/触摸/远程监控'],
+        summary: '面向失能老人的智能轮椅多模态交互微信小程序。',
+        desc: '微信小程序原生框架 + 科大讯飞离线语音识别引擎 + “语音主控+触摸辅助+远程监控”三层适老化交互架构。通过适老化界面与多通道容错降低老年用户使用难度。',
+        features: ['语音指令', '摇杆操控', 'GPS 定位', '生命体征监测', '数据统计', '紧急呼叫']
+      }
+    ];
+
+    const grid = document.getElementById('projectsGrid');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalClose = document.getElementById('modalClose');
+    const modalPrev = document.getElementById('modalPrev');
+    const modalNext = document.getElementById('modalNext');
+    const modalMainImg = document.getElementById('modalMainImg');
+    const modalThumbs = document.getElementById('modalThumbs');
+    const modalCategory = document.getElementById('modalCategory');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalTags = document.getElementById('modalTags');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalFeatures = document.getElementById('modalFeatures');
+    const modalLink = document.getElementById('modalLink');
+
+    let activeProject = null;
+    let activeImageIndex = 0;
+
+    function renderProjects(filter = 'all') {
+      grid.innerHTML = '';
+      const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter);
+      filtered.forEach((p, i) => {
+        const card = document.createElement('article');
+        card.className = 'project-card';
+        card.style.transitionDelay = `${i * 60}ms`;
+        card.innerHTML = `
+          <div class="card-media">
+            <span class="card-category mono">${p.categoryLabel}</span>
+            <img src="${p.cover}" alt="${p.title}" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">${p.title}</h3>
+            <div class="card-tags">${p.tags.slice(0, 4).map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
+            <p class="card-summary">${p.summary}</p>
+          </div>
+        `;
+        card.addEventListener('click', () => openModal(p));
+        grid.appendChild(card);
+        requestAnimationFrame(() => card.classList.add('revealed'));
+      });
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderProjects(btn.dataset.filter);
+      });
+    });
+
+    function openModal(p) {
+      activeProject = p;
+      activeImageIndex = 0;
+      modalCategory.textContent = p.categoryLabel;
+      modalTitle.textContent = p.title;
+      modalDesc.textContent = p.desc;
+      modalTags.innerHTML = p.tags.map(t => `<span class="card-tag">${t}</span>`).join('');
+      modalFeatures.innerHTML = p.features.map(f => `<li>${f}</li>`).join('');
+      if (p.link) {
+        modalLink.href = p.link;
+        modalLink.style.display = 'inline-flex';
+      } else {
+        modalLink.style.display = 'none';
+      }
+      updateGallery();
+      modalOverlay.classList.add('open');
+      modalOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('open');
+      modalOverlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      activeProject = null;
+    }
+
+    function updateGallery() {
+      if (!activeProject) return;
+      const imgName = activeProject.images[activeImageIndex];
+      modalMainImg.src = `../docs/${imgName}`;
+      modalMainImg.alt = activeProject.title;
+      modalThumbs.innerHTML = activeProject.images.map((img, i) => `
+        <div class="modal-thumb ${i === activeImageIndex ? 'active' : ''}" data-index="${i}">
+          <img src="../docs/${img}" alt="" loading="lazy" />
+        </div>
+      `).join('');
+      modalThumbs.querySelectorAll('.modal-thumb').forEach(thumb => {
+        thumb.addEventListener('click', () => {
+          activeImageIndex = parseInt(thumb.dataset.index);
+          updateGallery();
+        });
+      });
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', e => {
+      if (e.target === modalOverlay) closeModal();
+    });
+    modalPrev.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!activeProject) return;
+      activeImageIndex = (activeImageIndex - 1 + activeProject.images.length) % activeProject.images.length;
+      updateGallery();
+    });
+    modalNext.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!activeProject) return;
+      activeImageIndex = (activeImageIndex + 1) % activeProject.images.length;
+      updateGallery();
+    });
+    document.addEventListener('keydown', e => {
+      if (!modalOverlay.classList.contains('open')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') modalPrev.click();
+      if (e.key === 'ArrowRight') modalNext.click();
+    });
+
+    // Scroll reveal for static elements
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    renderProjects();
+
+    // Re-observe cards after filter changes
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll('.project-card:not(.revealed)').forEach(card => revealObserver.observe(card));
+    });
+    observer.observe(grid, { childList: true });
+  </script>
+</body>
+</html>

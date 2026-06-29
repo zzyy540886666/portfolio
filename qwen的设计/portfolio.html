@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目作品集 | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@600;700;800&family=Satoshi:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #00ff88;
+            --accent-dim: rgba(0, 255, 136, 0.1);
+            --border: #2a2a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 8vw;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-50px, 50px) scale(1.1); }
+        }
+
+        .hero-label {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        .hero-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(48px, 8vw, 120px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.4s;
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--accent) 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(18px, 2vw, 24px);
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 48px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.6s;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 64px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.8s;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Filter Section */
+        .filter-section {
+            padding: 80px 8vw 40px;
+            position: sticky;
+            top: 0;
+            background: var(--bg-primary);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 28px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-family: 'Satoshi', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
+            font-weight: 700;
+        }
+
+        /* Projects Grid */
+        .projects-section {
+            padding: 80px 8vw 120px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            opacity: 0;
+            animation: cardFadeIn 0.6s ease forwards;
+        }
+
+        @keyframes cardFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent) 0%, #00d4ff 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.1);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 28px;
+        }
+
+        .project-category {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--accent-dim);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        .project-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .project-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tech-tag {
+            padding: 6px 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-content {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            animation: modalSlideUp 0.4s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, var(--bg-card) 100%);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 48px;
+            margin-top: -100px;
+            position: relative;
+        }
+
+        .modal-category {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--accent-dim);
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .modal-section {
+            margin-bottom: 32px;
+        }
+
+        .modal-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .modal-section-content {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .modal-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .modal-gallery img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 0 5vw;
+            }
+
+            .hero-stats {
+                gap: 32px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .filter-section {
+                padding: 40px 5vw 20px;
+            }
+
+            .filter-buttons {
+                gap: 8px;
+            }
+
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .projects-section {
+                padding: 40px 5vw 80px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .modal-body {
+                padding: 32px 24px;
+            }
+
+            .modal-title {
+                font-size: 32px;
+            }
+
+            .modal-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 1s;
+        }
+
+        .scroll-indicator span {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-label">个人项目作品集</div>
+        <h1 class="hero-title">
+            创造<span class="highlight">有价值</span>的<br>
+            数字产品
+        </h1>
+        <p class="hero-subtitle">
+            从医疗 AI 到电竞平台，从工业 IoT 到文旅导览，每一个项目都是对技术与用户体验的深度探索
+        </p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number">13</div>
+                <div class="stat-label">完成项目</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">5</div>
+                <div class="stat-label">商用落地</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">6</div>
+                <div class="stat-label">竞赛获奖</div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>向下滚动</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">全部项目</button>
+            <button class="filter-btn" data-filter="website">网站</button>
+            <button class="filter-btn" data-filter="software">软件</button>
+            <button class="filter-btn" data-filter="miniprogram">小程序</button>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects-section">
+        <div class="projects-grid" id="projectsGrid"></div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-header">
+                <img class="modal-image" id="modalImage" src="" alt="">
+                <div class="modal-overlay"></div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-category" id="modalCategory"></div>
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <div id="modalContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 项目数据
+        const projects = [
+            {
+                id: 1,
+                category: 'website',
+                categoryLabel: '网站',
+                title: '东软学生心理档案系统',
+                desc: '面向学校心理健康管理的Web平台，用于学生心理档案管理、危机预警与干预追踪',
+                overview: '是面向学校心理健康管理的Web平台，用于学生心理档案管理、危机预警与干预追踪。',
+                tech: 'Vue3 + TypeScript + Vite + Element Plus + Vuex + ECharts + WangEditor + XLSX',
+                features: '系统涵盖学生信息管理、心理咨询与访谈记录、问卷测评、预警分级审核（待审/批量复审/在库/等级变更）、危机与病历档案及统计看板等模块。',
+                solve: '解决了传统纸质档案分散、心理数据难以聚合分析、危机学生跟踪不及时的问题，实现心理健康数据数字化归档与预警闭环管理。',
+                images: ['image.png', 'image-1.png', 'image-2.png', 'image-3.png', 'image-4.png'],
+                tags: ['Vue3', 'TypeScript', 'ECharts']
+            },
+            {
+                id: 2,
+                category: 'website',
+                categoryLabel: '网站',
+                title: '三角洲俱乐部电竞网站',
+                desc: '房间制多人实时联机电竞游戏平台，集成扫雷、连连看、幸运转盘、刮刮卡等玩法',
+                overview: '是一款房间制多人实时联机电竞游戏平台，集成扫雷、连连看、幸运转盘、刮刮卡等玩法，支持老板/打手角色权限划分与房间内全员实时同步。',
+                tech: 'React 18 + TypeScript + Vite + Zustand + Socket.IO Client + Express + MySQL 8 + Redis 7 + Docker + Nginx',
+                features: '扫雷、连连看、转盘、刮刮卡等多游戏 + 角色权限划分 + 房间实时同步',
+                solve: '',
+                images: ['40.png', 'cd0f3e1176a5727fc9823fa3ce37e061.png'],
+                tags: ['React', 'WebSocket', 'Redis']
+            },
+            {
+                id: 3,
+                category: 'website',
+                categoryLabel: '网站',
+                title: '宇树机器狗监控平台',
+                desc: '面向机器狗集群的可视化监控与智能巡检管理Web平台',
+                overview: '面向机器狗集群的可视化监控与智能巡检管理Web平台。',
+                tech: 'React 18 + TypeScript + Vite + Tailwind CSS + ECharts + Express.js + Python (HyperLPR3)',
+                features: '实时展示机器狗状态、摄像头画面、违停车牌识别结果，支持设备管理、巡检路线配置、人员调度与统计概览，并兼容本地摄像头触发识别。',
+                solve: '将传统人工巡检升级为机器狗自动巡检 + AI 视觉识别，实现园区违停的实时发现、记录与集群化调度，提升安防巡检效率。',
+                images: ['36.png', '37.png', '38.png'],
+                tags: ['IoT', 'AI视觉', '数据大屏']
+            },
+            {
+                id: 4,
+                category: 'website',
+                categoryLabel: '网站',
+                title: '角膜地形图AI智能诊断系统',
+                desc: '眼科医疗AI应用网站，用于角膜地形图自动分类与圆锥角膜筛查',
+                overview: '角膜地形图AI智能诊断系统是一款眼科医疗AI应用网站，用于角膜地形图自动分类与圆锥角膜筛查。',
+                tech: 'PyTorch + ConvNeXt V2 + MaxViT + Swin Transformer V2 + Streamlit + FastAPI + Docker',
+                features: '系统功能涵盖图像上传预测、热力图可视化、临床指标分析与结构化报告生成。',
+                solve: '该项目解决了传统人工判读效率低、基层误诊率高、AI诊断黑盒不可信及医疗数据标注成本高的问题，500例数据即达92-96%准确率。',
+                images: ['48.png'],
+                tags: ['PyTorch', '医疗AI', 'Docker']
+            },
+            {
+                id: 5,
+                category: 'website',
+                categoryLabel: '网站',
+                title: '精密行星减速器智能制造管理平台',
+                desc: '面向工业零件制造行业的网站，实现生产全链路数字化与智能化协同管理',
+                overview: '面向工业零件制造行业的网站。',
+                tech: 'Spring Boot 3.1 + Java 17 + MySQL + Vue 3 + Vite + Element Plus + ECharts',
+                features: '功能涵盖数据看板、设备管理、物料与BOM、工序与工艺路线、生产任务、采购计划及AI智能助手。',
+                solve: '制造过程中设备物料工艺数据割裂、进度不透明、库存预警滞后等问题，实现生产全链路数字化与智能化协同管理。',
+                images: ['43.png', '44.png', '45.png'],
+                tags: ['Spring Boot', '智能制造', 'ECharts']
+            },
+            {
+                id: 6,
+                category: 'software',
+                categoryLabel: '软件',
+                title: '基于OpenHarmony的AI虚拟数字宠物与全息双端协同情感交互系统',
+                desc: '基于开源鸿蒙的AI虚拟数字宠物，打造有记忆、有情绪、能感知的数字生命',
+                overview: '基于开源鸿蒙（HarmonyOS NEXT）的AI虚拟数字宠物。',
+                tech: 'ArkTS/ArkUI + WS63南向嵌入式 + FastAPI + PC推流服务',
+                features: '实现2.5D宠物动画、AItts语音合成对话、三层记忆、情绪共鸣、性格成长、IoT环境感知与双端协同等功能。',
+                solve: '定义为融合AI与IoT的数字陪伴伙伴，解决传统电子宠物无情感共鸣、无持久记忆、交互单一的问题，打造有记忆、有情绪、能感知、会做梦的"活"的数字生命。',
+                images: ['image-5.png', 'image-7.png', 'image-8.png', 'image-9.png', 'image-10.png'],
+                tags: ['HarmonyOS', 'AI', 'IoT']
+            },
+            {
+                id: 7,
+                category: 'miniprogram',
+                categoryLabel: '小程序',
+                title: '医用试剂智能识别出入库系统',
+                desc: '面向医院检验科的移动端试剂生命周期管理方案，以"拍照即入库"为核心创新',
+                overview: '本项目是一套面向医院检验科与实验室的移动端试剂生命周期管理方案，以"低成本"、"易部署"、"易上手"为核心，以"拍照即入库"、"自动过期库存预警"为核心创新，对比市面现有系统的1:10低成本实现同款功能。被深圳龙岗某三级医院采用累计7个月，次数6500+。',
+                tech: '微信小程序 + 微信云开发 + 腾讯云OCR API + 企业微信机器人',
+                features: '核心功能涵盖OCR拍照入库、出入库记录、库存与有效期预警、汇总去重检测、阈值联动订货状态及数据导出。',
+                solve: '系统解决了传统试剂管理中录入繁琐、台账分散、临期缺货易漏等痛点和现有系统的成本高、部署复杂、操作繁琐等问题，实现降错提效、降低浪费、强化合规追溯，低成本部署、易于规模复制。',
+                images: ['gh_e7483c80723c_258.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg'],
+                tags: ['OCR', '云开发', 'Serverless']
+            },
+            {
+                id: 8,
+                category: 'miniprogram',
+                categoryLabel: '小程序',
+                title: '星球出机小程序',
+                desc: '面向设备托管与数字资产交易的微信小程序平台',
+                overview: '星球出机是一款面向设备托管与数字资产交易的微信小程序平台。',
+                tech: 'UniApp + Java 17 + Spring Boot 3.x + MySQL 8 + Redis + 腾讯云COS + Docker Compose',
+                features: '功能涵盖微信登录、商品目录与搜索、订单计价状态机、微信支付与回调、电子合同、会员等级与星球卡、光年币钱包、资产托管、社区内容机审、分销佣金结算、报修工单与巡检等模块。',
+                solve: '解决了设备租赁与数字资产托管场景下，从获客、交易、履约到运维的一体化线上经营问题，并按攻击者视角内置鉴权、幂等、限流与服务端金额校验等安全控制。',
+                images: ['1.首页.jpg', '4. 商品详情页.png', '9.会员、星球卡页.png', '13收益托管页.png', '8.我的、个人中心页.png', '2. 分类 、商品货架页.png'],
+                tags: ['Spring Boot', '微信支付', 'Redis']
+            },
+            {
+                id: 9,
+                category: 'miniprogram',
+                categoryLabel: '小程序',
+                title: '众绘智径',
+                desc: '面向多景区场景的SaaS化智能导览平台，集成AR实景导航与AI讲解',
+                overview: '众绘智径是一款面向多景区场景的SaaS化智能导览平台。',
+                tech: '微信小程序 + 地图SDK + AR实景导航 + RESTful + 大模型AI',
+                features: '涵盖手绘/实景双图切换、AR实景导航、AI景点讲解、一码多景区切换、活动发布与一键求助等。',
+                solve: '聚焦解决中小景区自建导览小程序成本高、纸质地图与通用导航体验差、景点讲解割裂、活动信息触达难等痛点，以"一次接入、多端复用"模式，助力景区把一次性建设成本转为可持续运营成本，降低文旅数字化门槛。',
+                images: ['1.jpg', '2.jpg', 'image-11.png', 'image-12.png', 'image-13.png', 'image-14.png'],
+                tags: ['AR导航', 'SaaS', 'AI讲解']
+            },
+            {
+                id: 10,
+                category: 'miniprogram',
+                categoryLabel: '小程序',
+                title: '家人安心护',
+                desc: '面向独居老人健康监护与立体应急救援的微信小程序，构建空地协同救援闭环',
+                overview: '是一套面向独居老人健康监护与立体应急救援的微信小程序。',
+                tech: '微信小程序 + 云开发 + WebSocket + 华为Health Kit + 腾讯地图SDK + 无人机API',
+                features: '涵盖老人实时体征监测、定位与电子围栏、分级警报处置、无人机一键搜寻投送与视频直播回传、家属协同管理。',
+                solve: '解决独居老人突发健康危机时响应迟缓、定位困难、家属难以即时协同处置的痛点，构建"穿戴感知—云端预警—空地协同救援"的立体守护闭环。',
+                images: ['14.png', '15.jpg', '16.jpg', '17.jpg', '18.jpg'],
+                tags: ['WebSocket', 'Health Kit', '无人机']
+            },
+            {
+                id: 11,
+                category: 'miniprogram',
+                categoryLabel: '小程序',
+                title: '数字游民生态小程序',
+                desc: '面向数字游民与旅居人群的河源旅居入口型小程序',
+                overview: '本项目是面向数字游民与旅居人群的河源旅居入口型小程序。',
+                tech: '微信小程序原生 + Web管理后台 + 云数据库',
+                features: '覆盖产品包（住宿+联合办公+服务）、活动报名、生活指引地图、技能交换与项目对接、社群共建及运营数据看板。',
+                solve: '通过"产品包+活动+社群+技能对接"双引擎，解决游民"住哪、工作、社交、在地生活"的痛点，构建获客→转化→留存→贡献→收益的旅居生态闭环。',
+                images: ['21.png', '22.jpg', '23.jpg', '24.jpg', '25.jpg', '26.jpg'],
+                tags: ['旅居', '社群', '数据看板']
+            },
+            {
+                id: 12,
+                category: 'miniprogram',
+                categoryLabel: '小程序',
+                title: '慧心协护',
+                desc: '面向失能老人的智能轮椅多模态交互微信小程序',
+                overview: '面向失能老人的智能轮椅多模态交互微信小程序。',
+                tech: '微信小程序原生 + 科大讯飞离线语音识别 + 三层适老化交互架构',
+                features: '语音指令、摇杆操控、GPS定位、生命体征监测、数据统计、紧急呼叫。',
+                solve: '传统轮椅交互单一、操作门槛高、远程监护缺失；通过适老化界面与多通道容错降低老年用户使用难度。',
+                images: ['28.jpg', '29.jpg', '30.jpg', '31.jpg'],
+                tags: ['语音交互', '适老化', 'IoT']
+            }
+        ];
+
+        // 渲染项目卡片
+        function renderProjects(filter = 'all') {
+            const grid = document.getElementById('projectsGrid');
+            grid.innerHTML = '';
+
+            const filtered = filter === 'all' 
+                ? projects 
+                : projects.filter(p => p.category === filter);
+
+            filtered.forEach((project, index) => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.innerHTML = `
+                    <img class="project-image" src="../docs/${project.images[0]}" alt="${project.title}">
+                    <div class="project-content">
+                        <div class="project-category">${project.categoryLabel}</div>
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-desc">${project.desc}</p>
+                        <div class="project-tech">
+                            ${project.tags.map(tag => `<span class="tech-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => openModal(project));
+                grid.appendChild(card);
+            });
+        }
+
+        // 打开模态框
+        function openModal(project) {
+            const modal = document.getElementById('modal');
+            const modalImage = document.getElementById('modalImage');
+            const modalCategory = document.getElementById('modalCategory');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+
+            modalImage.src = `../docs/${project.images[0]}`;
+            modalCategory.textContent = project.categoryLabel;
+            modalTitle.textContent = project.title;
+
+            let contentHTML = `
+                <div class="modal-section">
+                    <div class="modal-section-title">项目概述</div>
+                    <div class="modal-section-content">${project.overview}</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">技术架构</div>
+                    <div class="modal-section-content">${project.tech}</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">核心功能</div>
+                    <div class="modal-section-content">${project.features}</div>
+                </div>
+            `;
+
+            if (project.solve) {
+                contentHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">解决问题</div>
+                        <div class="modal-section-content">${project.solve}</div>
+                    </div>
+                `;
+            }
+
+            if (project.images.length > 1) {
+                contentHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">项目截图</div>
+                        <div class="modal-gallery">
+                            ${project.images.map(img => `<img src="../docs/${img}" alt="${project.title}">`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            modalContent.innerHTML = contentHTML;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭模态框
+        document.getElementById('modalClose').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // 筛选功能
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderProjects(btn.dataset.filter);
+            });
+        });
+
+        // 初始化
+        renderProjects();
+    </script>
+</body>
+</html>
