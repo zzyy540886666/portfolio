@@ -1,0 +1,18 @@
+# 个人敏感文件 — 不推到公开仓库
+简历/
+获奖.md
+
+# 其它 AI 设计的对照版本
+db的设计/
+ds的设计/
+GLM的设计/
+kimi的设计/
+qwen的设计/
+
+# 子模块(本地引用,不推送)
+zzy_portfolio/
+
+# 杂项
+.DS_Store
+Thumbs.db
+*.log
