@@ -321,33 +321,33 @@
   }
 
   /* ---------- COVERFLOW gallery (like phone task switcher) ---------- */
-  .coverflow { margin-bottom: 0; perspective: 1600px; display: flex; flex-direction: column; }
+  .coverflow { margin-bottom: 0; perspective: 2000px; display: flex; flex-direction: column; }
   .cf-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; font-family: "JetBrains Mono", monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .18em; color: rgba(236,228,212,0.55); }
   .cf-counter strong { color: var(--accent); }
   .cf-stage {
     position: relative;
     flex: 1;
-    min-height: 360px;
-    height: clamp(380px, 56vh, 520px);
+    min-height: 420px;
+    height: clamp(460px, 64vh, 600px);
     transform-style: preserve-3d;
     touch-action: pan-y;
     cursor: grab;
     contain: layout paint;
     will-change: transform;
-    --cf-slide-w: clamp(280px, 42%, 460px);
-    --cf-stage-h: clamp(380px, 56vh, 520px);
+    --cf-slide-w: clamp(360px, 52%, 580px);
+    --cf-stage-h: clamp(460px, 64vh, 600px);
     height: var(--cf-stage-h);
     transition: height .45s cubic-bezier(.2,.7,.2,1);
   }
-  /* 横向(网站):stage 矮一些,slide 加宽,让 16:9 完整展开 */
+  /* 横向(网站):stage 略矮,slide 加宽,让 16:9 完整展开 */
   .cf-stage.cat-web {
-    --cf-slide-w: clamp(360px, 58%, 620px);
-    --cf-stage-h: clamp(300px, 46vh, 420px);
+    --cf-slide-w: clamp(480px, 72%, 780px);
+    --cf-stage-h: clamp(420px, 58vh, 540px);
   }
-  /* 竖向(软件/小程序):stage 加高,slide 收窄,让 9:16 完整展示 */
+  /* 竖向(软件/小程序):stage 加高,slide 略收窄,让 9:16 完整展示 */
   .cf-stage.cat-portrait {
-    --cf-slide-w: clamp(220px, 30%, 360px);
-    --cf-stage-h: clamp(480px, 70vh, 600px);
+    --cf-slide-w: clamp(300px, 40%, 480px);
+    --cf-stage-h: clamp(560px, 82vh, 720px);
   }
   .cf-stage.dragging { cursor: grabbing; }
   .cf-slide {
@@ -356,10 +356,11 @@
     height: 100%;
     transform: translate3d(-50%, 0, 0) translateX(0) scale(1) rotateY(0deg);
     transition: transform .5s cubic-bezier(.2,.7,.2,1), opacity .35s, box-shadow .35s;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
-    background: var(--surface);
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+    /* 不透明 paper 色,避免背后 slide 透过来 */
+    background: #ece4d4;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.7);
     cursor: pointer;
     will-change: transform, opacity;
     contain: layout paint style;
@@ -368,7 +369,8 @@
   .cf-slide img {
     width: 100%; height: 100%;
     object-fit: contain;
-    background: rgba(236,228,212,0.92);
+    /* 给图片本身一个不透明背景,避免 contain 留白时后面 slide 透出 */
+    background: #ece4d4;
     pointer-events: none;
     -webkit-user-drag: none;
     user-select: none;
@@ -526,9 +528,9 @@
 
     /* coverflow stage — image-first on mobile, ensure no overflow */
     .cf-label { font-size: 10px; margin-bottom: 10px; }
-    .cf-stage { min-height: 240px; }
-    .cf-stage.cat-web { --cf-stage-h: 240px; }
-    .cf-stage.cat-portrait { --cf-stage-h: 52vh; }
+    .cf-stage { min-height: 300px; }
+    .cf-stage.cat-web { --cf-stage-h: 300px; }
+    .cf-stage.cat-portrait { --cf-stage-h: 58vh; }
     .cf-slide { width: var(--cf-slide-w); border-radius: 10px; }
     .cf-controls { gap: 12px; margin-top: 18px; }
     .cf-btn { width: 38px; height: 38px; font-size: 16px; }
@@ -546,9 +548,9 @@
     .m-section .lab { font-size: 10.5px; letter-spacing: .16em; }
     .m-overview { font-size: 14px; }
     .m-section .txt, .m-feature { font-size: 13px; }
-    .cf-stage { min-height: 200px; }
-    .cf-stage.cat-web { --cf-stage-h: 200px; }
-    .cf-stage.cat-portrait { --cf-stage-h: 50vh; }
+    .cf-stage { min-height: 260px; }
+    .cf-stage.cat-web { --cf-stage-h: 260px; }
+    .cf-stage.cat-portrait { --cf-stage-h: 54vh; }
     .cf-controls { gap: 8px; margin-top: 14px; }
     .cf-btn { width: 34px; height: 34px; font-size: 15px; }
     .modal-close { width: 38px; height: 38px; font-size: 17px; top: 12px; right: 12px; }
@@ -641,12 +643,12 @@
       <p>无论是商单、竞赛,还是一份想被认真对待的产品,我都乐意把它拆解成可被反复审计的工程。带上你的问题,我们可以从第一张白板开始。</p>
     </div>
     <div class="contact reveal">
-      <div><span class="k">代码仓库</span><a href="#">github.com/zhangziyue</a></div>
+      <div><span class="k">代码仓库</span><a href="https://gitee.com/zhangziyue4088/zzy_portfolio.git" target="_blank" rel="noopener">gitee.com/zhangziyue4088/zzy_portfolio</a></div>
       <div><span class="k">邮箱</span>
         <a href="mailto:227295778@qq.com">227295778@qq.com</a>
         <a href="mailto:aotemanbob@gmail.com">aotemanbob@gmail.com</a>
       </div>
-      <div><span class="k">微信</span><a href="#">wx17147293091x.</a></div>
+      <div><span class="k">微信</span><a href="#">wx17147293091</a></div>
       <div><span class="k">简历</span><a href="#">下载 PDF ↗</a></div>
     </div>
   </section>
@@ -1090,9 +1092,12 @@ function renderCoverflow(total) {
     let x = off * 60; // % offset
     let scale = 1 - Math.min(Math.abs(off) * 0.15, 0.45);
     let rotate = off === 0 ? 0 : (off > 0 ? -22 : 22) * Math.min(Math.abs(off), 1.4);
-    let z = 10 - Math.abs(off);
+    // 关键:非 active slide 沿 Z 轴后退,避免旋转后凸出在 active 前面
+    // active 凸前 +40,off=±1 退 -60,off=±2 退 -120,off=±3 退 -180
+    let tz = off === 0 ? 40 : -60 * Math.abs(off);
+    let z = off === 0 ? 1000 : 1000 - Math.abs(off) * 100;
     let opacity = Math.abs(off) > 2.2 ? 0 : 1 - Math.abs(off) * 0.22;
-    s.style.transform = `translate3d(-50%, 0, 0) translateX(${x}%) scale(${scale}) rotateY(${rotate}deg)`;
+    s.style.transform = `translate3d(-50%, 0, ${tz}px) translateX(${x}%) scale(${scale}) rotateY(${rotate}deg)`;
     s.style.zIndex = z;
     s.style.opacity = opacity;
     s.style.pointerEvents = Math.abs(off) > 2 ? 'none' : 'auto';
